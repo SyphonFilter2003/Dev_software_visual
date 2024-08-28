@@ -1,0 +1,8 @@
+###TESTAR A PRIMEIRA FUNCIONALIDADE
+GET http://localhost:5147
+
+###TESTAR A SEGUNDA FUNCIONALIDADE
+GET http://localhost:5147/segundafuncionalidade
+
+###TESTAR A TERCEIRA FUNCIONALIDADE
+GET http://localhost:5147/retornarendereco
