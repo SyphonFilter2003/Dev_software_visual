@@ -1,8 +1,6 @@
-###TESTAR A PRIMEIRA FUNCIONALIDADE
-GET http://localhost:5147
 
-###TESTAR A SEGUNDA FUNCIONALIDADE
-GET http://localhost:5147/segundafuncionalidade
+###LISTAR PRODUTOS
+GET http://localhost:5147/produto/listar
 
-###TESTAR A TERCEIRA FUNCIONALIDADE
-GET http://localhost:5147/retornarendereco
+##CADASTRAR PRODUTOS
+POST http://localhost:5147/produto/cadastrar/Creatina

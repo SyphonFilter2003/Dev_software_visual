@@ -10,27 +10,66 @@ var app = builder.Build();
 
 //EndPoints - Funcionalidades dentro das APIs
 //Configurar a URL e o método/verbo
-app.MapGet("/", () => "Olá mundo!");
+//Response - Retornar os dados(json/xm1) e
+app.MapGet("/", () => "API de Produtos");
 
-app.MapGet("/segundafuncionalidade", () => "Hello World em C#!");
+List<Produto> produtos = new List<Produto>();
+produtos.Add(new Produto(){
 
-app.MapGet("/retornarendereco", () => {
-    dynamic endereco = new {
-        rua = "Rua Jorge Elias",
-        numero = 440,
-        cep = "84950-000"
-    };
-    return endereco;
+    Nome = "Notebook",
+    Preco = 5000,
+    Quantidade = 54
+});
+
+produtos.Add(new Produto(){
+
+    Nome = "Creatina",
+    Preco = 86,
+    Quantidade = 47
+});
+
+produtos.Add(new Produto(){
+
+    Nome = "Whey Protein",
+    Preco = 110,
+    Quantidade = 98
+});
+
+produtos.Add(new Produto(){
+
+    Nome = "Straps",
+    Preco = 68,
+    Quantidade = 102
+});
+
+
+app.MapGet("/produto/listar", () =>
+{
+    return Results.Ok(produtos);
+});
+
+//POST: /produto/cadastrar
+app.MapPost("/produto/cadastrar/{nome}", 
+    (string nome) =>
+{
+    Produto produto = new Produto();
+    produto.Nome = nome; 
+    //ADICIONANDO PRODUTO DENTRO DA LISTA 
+    produtos.Add(produto);
+    return Results.Ok(produtos);
 });
 
 
 app.Run();
 
 //C# - Utilização dos gets e sets
-Produto produto = new Produto();
-produto.Preco = 5;
-produto.
-Console.WriteLine("Preço: " + produto.Preco);
+//Produto produto = new Produto(){
+//    Nome = "teste",
+//    Preco = 5,
+//    Quantidade = 150
+//};
+
+//Console.WriteLine("Preço: " + produto.Preco);
 
 
 //JAVA - Utilização dos gets e sets:
