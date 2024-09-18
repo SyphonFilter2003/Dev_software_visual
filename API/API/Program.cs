@@ -4,6 +4,7 @@
 //                - Insomnia(instalar no pc
 //MINIMAL APIs(APIs mínimas, funcionam com menos código possível!)
 using API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -13,8 +14,9 @@ var app = builder.Build();
 //Response - Retornar os dados(json/xm1) e
 app.MapGet("/", () => "API de Produtos");
 
+//LISTAGEM DE PRODUTOS:
 List<Produto> produtos = new List<Produto>();
-produtos.Add(new Produto(){
+/*produtos.Add(new Produto(){
 
     Nome = "Notebook",
     Preco = 5000,
@@ -41,24 +43,40 @@ produtos.Add(new Produto(){
     Preco = 68,
     Quantidade = 102
 });
-
-
+*/
+//GET: /produto/listar
 app.MapGet("/produto/listar", () =>
 {
-    return Results.Ok(produtos);
+    if(produtos.Count > 0){
+        return Results.Ok(produtos);
+    }
+    return Results.NotFound();
 });
 
-//POST: /produto/cadastrar
-app.MapPost("/produto/cadastrar/{nome}", 
-    (string nome) =>
+app.MapGet("/produto/buscar/{nome}", (string nome) => {
+    foreach(Produto produtoCadastrado in produtos){
+        if(produtoCadastrado.Nome == nome){
+            return Results.Ok(produtoCadastrado);
+        }
+    }
+    return Results.NotFound();
+});
+
+//POST: /produto/cadastrar sem ser no corpo da API(deixando ele mais bonitinho)
+app.MapPost("/produto/cadastrar", 
+    ([FromBody]Produto produto) =>
 {
+    /*//Criar o objeto e preencher
     Produto produto = new Produto();
-    produto.Nome = nome; 
+    produto.Nome = nome;*/
     //ADICIONANDO PRODUTO DENTRO DA LISTA 
     produtos.Add(produto);
-    return Results.Ok(produtos);
+    return Results.Created("", produto);
 });
 
+//Exercícios
+// - Remover produto
+// - Alterar produto
 
 app.Run();
 
