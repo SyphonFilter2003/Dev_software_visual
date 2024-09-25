@@ -1,0 +1,12 @@
+###LISTAR PRODUTOS
+GET http://localhost:5147/produto/listar
+
+###CADASTRAR PRODUTOS
+POST http://localhost:5147/produto/cadastrar
+Content-Type: application/json
+
+{
+    "nome" : "Bolacha", 
+    "preco": 4.5,
+    "quantidade" : 156
+}
