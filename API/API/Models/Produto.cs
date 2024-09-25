@@ -11,6 +11,7 @@ public class Produto{
     //C# - Atributo com get e set
     public string? Id {get; set;}//O "?" serve para deixar sempre o valor NULO.
     public string? Nome {get; set;}
+    public string? Descricao {get; set;}
     public double Preco {get; set;}
     public int Quantidade {get; set;}
     public DateTime CriadoEm { get; set; }//DateTime serve para gerar um valor aleatório

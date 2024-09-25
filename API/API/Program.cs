@@ -1,4 +1,3 @@
-
 //TESTAR AS APIs: - Rest Client - Extensão do VsCode
 //                - Postman(instalar no pc)
 //                - Insomnia(instalar no pc
@@ -16,7 +15,7 @@ app.MapGet("/", () => "API de Produtos");
 
 //LISTAGEM DE PRODUTOS:
 List<Produto> produtos = new List<Produto>();
-/*produtos.Add(new Produto(){
+produtos.Add(new Produto(){
 
     Nome = "Notebook",
     Preco = 5000,
@@ -43,7 +42,7 @@ produtos.Add(new Produto(){
     Preco = 68,
     Quantidade = 102
 });
-*/
+
 //GET: /produto/listar
 app.MapGet("/produto/listar", () =>
 {
@@ -53,6 +52,7 @@ app.MapGet("/produto/listar", () =>
     return Results.NotFound();
 });
 
+//GET:/produto/buscar/{nome}
 app.MapGet("/produto/buscar/{nome}", (string nome) => {
     foreach(Produto produtoCadastrado in produtos){
         if(produtoCadastrado.Nome == nome){
@@ -60,6 +60,21 @@ app.MapGet("/produto/buscar/{nome}", (string nome) => {
         }
     }
     return Results.NotFound();
+});
+
+//GET: /api/produto/buscar/{id}
+app.MapGet("api/produto/buscar/{id}", (string id, List<Produto> produtos) =>
+{
+    // Procura o produto na lista de produtos
+    Produto? produto = produtos.Find(x => x.Id == id);
+
+    // Verifica se o produto é nulo
+    if (produto == null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(produto);
 });
 
 //POST: /produto/cadastrar sem ser no corpo da API(deixando ele mais bonitinho)
@@ -74,9 +89,26 @@ app.MapPost("/produto/cadastrar",
     return Results.Created("", produto);
 });
 
-//Exercícios
-// - Remover produto
-// - Alterar produto
+app.MapDelete("/api/produto/deletar/{id}", ([FromRoute] string id) =>{
+    Produto? produto = produtos.Find(x => x.Id == id);
+    if (produto == null){
+        return Results.NotFound();
+    }
+    produtos.Remove(produto);
+    return Results.Ok(produto);
+});
+
+app.MapPut("/api/produto/alterar/{id}", ([FromRoute] string id, [FromBody] Produto produtoAlterado) =>{
+    Produto? produto = produtos.Find(x => x.Id == id);
+    if(produto == null){
+        return Results.NotFound();
+    }
+    produto.Nome = produtoAlterado.Nome;
+    produto.Quantidade = produtoAlterado.Quantidade;
+    produto.Preco = produtoAlterado.Preco;
+    return Results.Ok(produto);
+});
+
 
 app.Run();
 
